@@ -1,8 +1,22 @@
-name: 'Build Android aab'
+name: 'Deploy aab to goole store'
 
 on:
   workflow_dispatch:
     branches: [develop]
+    inputs:
+      message:
+        description: 'Message to the QA to help him test the feature.'
+        required: false
+        default: 'No message left by the developer to help you test :('
+      preprod:
+        description: 'Do you want to generate a preprod build? (y/n)'
+        required: false
+        default: 'n'
+      prod:
+        description: 'Do you want to generate a prod build? (y/n)'
+        required: false
+        default: 'n'
+# if:$ {{ github.event.inputs.preprod == 'y' }}
 
 jobs:
   build_android_aab:
@@ -52,3 +66,13 @@ jobs:
           name: output
           path: ./android/app/build/outputs/bundle/prodRelease/app-prod-release.aab
           retention-days: 3
+
+      #deploy to goole
+      - name: Deploy to Play Store
+        id: deploy
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: ./android/app/keystore/service_account.json
+          packageName: com.teefiapp.production
+          releaseFiles: ./android/app/build/outputs/bundle/prodRelease/app-prod-release.aab
+          track: internal

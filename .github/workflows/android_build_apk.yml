@@ -3,20 +3,7 @@ name: 'Build Android apk'
 on:
   workflow_dispatch:
     branches: [develop]
-    inputs:
-      message:
-        description: 'Message to the QA to help him test the feature'
-        required: false
-        default: 'No message left by the developer to help you test :( :('
-      preprod:
-        description: 'Do you want to generate a preprod build? (y/n)'
-        required: false
-        default: 'n'
-      prod:
-        description: 'Do you want to generate a prod build? (y/n)'
-        required: false
-        default: 'n'
-# if:$ {{ github.event.inputs.preprod == 'y' }}
+
 jobs:
   build_android_apk:
     name: Build Signed Android APK
@@ -62,6 +49,6 @@ jobs:
       - name: Upload Output
         uses: actions/upload-artifact@v2
         with:
-          name: output
+          name: apkFile
           path: ./android/app/build/outputs/apk/prod
           retention-days: 3
