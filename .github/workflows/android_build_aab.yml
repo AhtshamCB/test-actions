@@ -5,7 +5,7 @@ on:
     branches: [develop]
     inputs:
       message:
-        description: 'Message to the QA to help him test the feature'
+        description: 'Message to the QA to help him test the feature.'
         required: false
         default: 'No message left by the developer to help you test :('
       preprod:
