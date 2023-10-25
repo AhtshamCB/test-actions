@@ -50,5 +50,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: output
-          path: ./android/app/build/outputs/bundle/prodRelease/app-prod-release.aab
+          path: ./android/app/build/outputs/bundle/prodRelease
           retention-days: 3
