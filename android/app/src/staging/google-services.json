@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1037976989503",
+    "project_id": "teefiapp-staging",
+    "storage_bucket": "teefiapp-staging.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037976989503:android:ede51694094dbc4f17ad8a",
+        "android_client_info": {
+          "package_name": "com.teefiapp.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037976989503-60n79e4gtuuj065pu1oakeq21rob2hiv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.teefiapp.staging",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1037976989503-8i6d9p7uo1fhfdl4r9vo97lc0tmn6ucn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALxmipa_Zhknz0bEYg5Qzw_IxM5XF-FXE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037976989503-8i6d9p7uo1fhfdl4r9vo97lc0tmn6ucn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

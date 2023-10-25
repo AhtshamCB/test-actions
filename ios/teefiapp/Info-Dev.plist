@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>en</string>
+		<key>CFBundleDisplayName</key>
+		<string>TeeFi Dev</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>$(PRODUCT_NAME)</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(MARKETING_VERSION)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleVersion</key>
+		<string>$(CURRENT_PROJECT_VERSION)</string>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>itms</string>
+			<string>mailto</string>
+			<string>tel</string>
+		</array>
+		<key>LSRequiresIPhoneOS</key>
+		<true />
+		<key>LSSupportsOpeningDocumentsInPlace</key>
+		<true />
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true />
+			<key>NSExceptionDomains</key>
+			<dict>
+				<key>localhost</key>
+				<dict>
+					<key>NSExceptionAllowsInsecureHTTPLoads</key>
+					<true />
+				</dict>
+			</dict>
+		</dict>
+		<key>NSCameraUsageDescription</key>
+		<string>Access to the camera is required to enable you to capture and share moments
+			seamlessly. You can take photos directly from the app to enhance your experience and
+			share them with your friends and family.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>$(PRODUCT_NAME)</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>$(PRODUCT_NAME)</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>$(PRODUCT_NAME)</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string></string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>Access to photos is necessary to allow you to select and upload images from your
+			gallery. This feature enhances your ability to personalize your posts by adding your
+			favorite memories to them.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Access to photos is necessary to allow you to select and upload images from your
+			gallery. This feature enhances your ability to personalize your posts by adding your
+			favorite memories to them.</string>
+		<key>UIAppFonts</key>
+		<array>
+			<string>AntDesign.ttf</string>
+			<string>Entypo.ttf</string>
+			<string>EvilIcons.ttf</string>
+			<string>Feather.ttf</string>
+			<string>FontAwesome.ttf</string>
+			<string>FontAwesome5_Brands.ttf</string>
+			<string>FontAwesome5_Regular.ttf</string>
+			<string>FontAwesome5_Solid.ttf</string>
+			<string>Foundation.ttf</string>
+			<string>Ionicons.ttf</string>
+			<string>MaterialIcons.ttf</string>
+			<string>MaterialCommunityIcons.ttf</string>
+			<string>SimpleLineIcons.ttf</string>
+			<string>Octicons.ttf</string>
+			<string>Zocial.ttf</string>
+			<string>TitanOne-Regular.ttf</string>
+			<string>Prompt-Bold.ttf</string>
+			<string>Prompt-BoldItalic.ttf</string>
+			<string>Prompt-ExtraBold.ttf</string>
+			<string>Prompt-ExtraBoldItalic.ttf</string>
+			<string>Prompt-Italic.ttf</string>
+			<string>Prompt-Black.ttf</string>
+			<string>Prompt-BlackItalic.ttf</string>
+			<string>Prompt-Light.ttf</string>
+			<string>Prompt-LightItalic.ttf</string>
+			<string>Prompt-Medium.ttf</string>
+			<string>Prompt-MediumItalic.ttf</string>
+			<string>Prompt-Regular.ttf</string>
+			<string>Prompt-SemiBold.ttf</string>
+			<string>Prompt-SemiBoldItalic.ttf</string>
+			<string>Prompt-ThinItalic.ttf</string>
+			<string>Prompt-Thin.ttf</string>
+			<string>Prompt-ExtraLight.ttf</string>
+			<string>Prompt-ExtraLightItalic.ttf</string>
+			<string>FontAwesomeIcon.ttf</string>
+		</array>
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
+		<key>UIFileSharingEnabled</key>
+		<true />
+		<key>UILaunchStoryboardName</key>
+		<string></string>
+		<key>UIRequiredDeviceCapabilities</key>
+		<array>
+			<string>armv7</string>
+		</array>
+		<key>UIRequiresFullScreen</key>
+		<true />
+		<key>UIStatusBarStyle</key>
+		<string></string>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		</array>
+		<key>UISupportsDocumentBrowser</key>
+		<true />
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false />
+		<key>environment</key>
+		<string>DebugDev</string>
+
+		<key>provisioningProfiles</key>
+		<dict>
+			<key>com.teefiapp.dev</key>
+			<string>6f622a99-08f5-4ae5-9d3e-896ac38efd53</string>
+		</dict>
+		<key>signingCertificate</key>
+		<string>iOS Distribution</string>
+		<key>signingStyle</key>
+		<string>manual</string>
+		<key>teamID</key>
+		<string>4DAP3TU67K</string>
+
+	</dict>
+</plist>

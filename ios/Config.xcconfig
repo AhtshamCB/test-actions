@@ -1,0 +1,10 @@
+//
+//  Config.xcconfig
+//  TeeFiApp
+//
+//  Created by Tuan Nguyen Hoang on 18/03/2023.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+#include? "tmp.xcconfig"

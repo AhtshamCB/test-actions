@@ -1,0 +1,64 @@
+name: 'Build Android aab'
+
+on:
+  workflow_dispatch:
+    branches: [develop]
+    # can add push and pull_request here
+
+jobs:
+  build_android_aab:
+    name: Build Signed Android AAB
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Insall Java
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: 'gradle'
+
+      # Validate gradle
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      # Setup Node
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # yarn install
+      - name: Run Yarn Install
+        run: |
+          npm i -g corepack
+          yarn install
+
+      # in the folder specified in the release signing configuration
+      - name: Decode Keystore
+        id: decode_keystore
+        uses: timheuer/base64-to-file@v1.2
+        with:
+          fileName: 'android_keystore.jks'
+          fileDir: '/home/runner/work/up-teefi/android/app/keystore/'
+          encodedString: ${{ secrets.ANDROID_KEYSTORE_PROD }}
+
+      # Build and sign APK ("-x test" argument is used to skip tests)
+      - name: Build AAB
+        run: |
+          cd android && ./gradlew :app:bundleRelease -x test
+        env:
+          ANDROID_PROD_KEY_ALIAS: ${{ secrets.ANDROID_PROD_KEY_ALIAS }}
+          ANDROID_PROD_ALIAS_PWD: ${{ secrets.ANDROID_PROD_ALIAS_PWD }}
+          ANDROID_KEYSTORE_PROD_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PROD_PASSWORD }}
+
+      # Upload Output folder
+      - name: Upload Output
+        uses: actions/upload-artifact@v2
+        with:
+          name: output
+          path: ./android/app/build/outputs
+          retention-days: 3

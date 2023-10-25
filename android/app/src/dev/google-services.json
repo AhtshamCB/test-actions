@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1007871683987",
+    "project_id": "teefiapp-dev",
+    "storage_bucket": "teefiapp-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1007871683987:android:1d5b3ed756c1ab8cf4cc66",
+        "android_client_info": {
+          "package_name": "com.teefiapp.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1007871683987-blmb8t21cfn568a6b09g1a20imd4nf2j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.teefiapp.dev",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1007871683987-ba7v4ettjgolilm4kb8uanapgc33r2m5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCArfexd_aW2h_zJ_i7Rp44zgsnFBGUsak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1007871683987-6iboecasdd4egu4adq6l96loasjh0ord.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1007871683987-3rqmv9v6qjpvc3qmglouisj9kogise0n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "teefiapp.dev"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
