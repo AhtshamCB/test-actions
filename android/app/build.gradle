@@ -105,7 +105,7 @@ android {
         resValue "string", "build_config_package", "com.teefiapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 14
+        versionCode 15
         versionName "1.0.1"
         vectorDrawables.useSupportLibrary = true
         missingDimensionStrategy 'react-native-camera', 'general'
