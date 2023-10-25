@@ -1,4 +1,4 @@
-name: 'Deploy aab to goole store'
+name: 'build signed aab'
 
 on:
   workflow_dispatch:

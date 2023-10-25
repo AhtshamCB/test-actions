@@ -33,7 +33,7 @@ env:
   ARTIFACT_PATH:  ${{ '/home/runner/work/test-actions/test-actions/android/app/build/outputs/bundle/prodRelease/app-prod-release.aab' }}
 
 jobs:
-  build_android_aab:
+  deploy_android_aab:
     name: Deploy build aab
     runs-on: ubuntu-latest
     steps:
