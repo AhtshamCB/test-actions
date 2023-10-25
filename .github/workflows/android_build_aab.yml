@@ -77,7 +77,7 @@ jobs:
         id: deploy
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: service_account.json
+          serviceAccountJsonPlainText: service_account.json
           packageName: com.teefiapp.production
           releaseFiles: ./android/app/build/outputs/bundle/prodRelease/app-prod-release.aab
           track: beta
