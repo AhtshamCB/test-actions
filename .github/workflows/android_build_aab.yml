@@ -50,15 +50,6 @@ jobs:
           npm i -g corepack
           yarn install
 
-      # in the folder specified in the release signing configuration
-      # - name: Decode Keystore
-      #   id: decode_keystore
-      #   uses: timheuer/base64-to-file@v1.2
-      #   with:
-      #     fileName: 'android_keystore.jks'
-      #     fileDir: '/home/runner/work/up-teefi/android/app/keystore/'
-      #     encodedString: ${{ secrets.ANDROID_KEYSTORE_PROD }}
-
       # Build and sign APK ("-x test" argument is used to skip tests)
       - name: Build AAB
         run: |
@@ -88,6 +79,7 @@ jobs:
         with:
           serviceAccountJson: service_account.json
           packageName: com.teefiapp.production
-          releaseFile: ./android/app/build/outputs/bundle/prodRelease/app-prod-release.aab
+          releaseFiles: ./android/app/build/outputs/bundle/prodRelease/app-prod-release.aab
           track: beta
-          whatsNewDirectory: whatsnew/
+          status: inProgress
+          whatsNewDirectory: distribution/whatsnew
