@@ -1,14 +1,44 @@
-name: 'Build Android aab'
+name: 'Deploy aab to goole store'
 
 on:
   workflow_dispatch:
     branches: [develop]
+
+env:
+  SEC_SERVICE_ACCOUNT_JSON: ${{secrets.SERVICE_ACCOUNT_JSON }}
+  SEC_ANDROID_KEYSTORE: ${{secrets.ANDROID_KEYSTORE_PROD }}
+
+  SEC_KEYSTORE_PWD: ${{secrets.ANDROID_KEYSTORE_PROD_PASSWORD }}
+  SEC_ALIAS: ${{secrets.ANDROID_PROD_KEY_ALIAS }}
+  SEC_ALIAS_PWD: ${{secrets.ANDROID_PROD_ALIAS_PWD }}
+
+  SERVICE_ACCOUNT_JSON_PATH: ${{'./android/app/keystore/service_account.json'}}
+  ANDROID_KEYSTORE_PATH: ${{'./android/app/keystore/android_keystore.jks'}}
+  ARTIFACT_PATH:  ${{ './android/app/build/outputs/bundle/prodRelease/app-prod-release.aab' }}
 
 jobs:
   build_android_aab:
     name: Build Signed Android AAB
     runs-on: ubuntu-latest
     steps:
+
+      #in the folder specified in the release signing configuration
+      - name: Decode Keystore
+        id: decode_keystore
+        uses: timheuer/base64-to-file@v1.2
+        with:
+          fileName: 'android_keystore.jks'
+          fileDir: './android/app/keystore/'
+          encodedString: ${{ env.SEC_ANDROID_KEYSTORE }}
+      
+      - name: Decode service_account.json
+        id: decode_service_account
+        uses: timheuer/base64-to-file@v1.2
+        with:
+          fileName: 'service_account.json'
+          fileDir: './android/app/keystore/'
+          encodedString: ${{ env.SEC_SERVICE_ACCOUNT_JSON }}
+    
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -41,14 +71,14 @@ jobs:
         run: |
           cd android && ./gradlew :app:bundleRelease -x test
         env:
-          ANDROID_PROD_KEY_ALIAS: ${{ secrets.ANDROID_PROD_KEY_ALIAS }}
-          ANDROID_PROD_ALIAS_PWD: ${{ secrets.ANDROID_PROD_ALIAS_PWD }}
-          ANDROID_KEYSTORE_PROD_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PROD_PASSWORD }}
+          ANDROID_PROD_KEY_ALIAS: ${{ env.SEC_ALIAS }}
+          ANDROID_PROD_ALIAS_PWD: ${{ env.SEC_ALIAS_PWD }}
+          ANDROID_KEYSTORE_PROD_PASSWORD: ${{ env.SEC_KEYSTORE_PWD }}
 
       # Upload Output folder
       - name: Upload Output
         uses: actions/upload-artifact@v2
         with:
           name: download
-          path: ./android/app/build/outputs/bundle/prodRelease
+          path:  ${{ env.ARTIFACT_PATH }} 
           retention-days: 3

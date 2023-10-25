@@ -20,20 +20,21 @@ on:
 
 
 env:
-  SEC_SERVICE_ACCOUNT_JSON: ${{secrets.SERVICE_ACCOUNT_JSON }}
   SEC_ANDROID_KEYSTORE: ${{secrets.ANDROID_KEYSTORE_PROD }}
+  SEC_SERVICE_ACCOUNT_JSON: ${{secrets.SERVICE_ACCOUNT_JSON }}
 
   SEC_KEYSTORE_PWD: ${{secrets.ANDROID_KEYSTORE_PROD_PASSWORD }}
   SEC_ALIAS: ${{secrets.ANDROID_PROD_KEY_ALIAS }}
   SEC_ALIAS_PWD: ${{secrets.ANDROID_PROD_ALIAS_PWD }}
 
-  SERVICE_ACCOUNT_JSON_PATH: ${{'./android/app/keystore/service_account.json'}}
-  ANDROID_KEYSTORE_PATH: ${{'./android/app/keystore/android_keystore.jks'}}
-  ARTIFACT_PATH:  ${{ './android/app/build/outputs/bundle/prodRelease/app-prod-release.aab' }}
+  CONFIG_DIR_PATH: ${{'/home/runner/work/test-actions/test-actions/android/app/keystore'}}
+  SERVICE_ACCOUNT_JSON_PATH: ${{'/home/runner/work/test-actions/test-actions/android/app/keystore/service_account.json'}}
+  ANDROID_KEYSTORE_PATH: ${{'/home/runner/work/test-actions/test-actions/android/app/keystore/android_keystore.jks'}}
+  ARTIFACT_PATH:  ${{ '/home/runner/work/test-actions/test-actions/android/app/build/outputs/bundle/prodRelease/app-prod-release.aab' }}
 
 jobs:
   build_android_aab:
-    name: Build Signed Android AAB
+    name: Deploy build aab
     runs-on: ubuntu-latest
     steps:
 
@@ -43,7 +44,7 @@ jobs:
         uses: timheuer/base64-to-file@v1.2
         with:
           fileName: 'android_keystore.jks'
-          fileDir: './android/app/keystore/'
+          fileDir: ${{ env.CONFIG_DIR_PATH }}
           encodedString: ${{ env.SEC_ANDROID_KEYSTORE }}
       
       - name: Decode service_account.json
@@ -51,7 +52,7 @@ jobs:
         uses: timheuer/base64-to-file@v1.2
         with:
           fileName: 'service_account.json'
-          fileDir: './android/app/keystore/'
+          fileDir: ${{ env.CONFIG_DIR_PATH }}
           encodedString: ${{ env.SEC_SERVICE_ACCOUNT_JSON }}
     
       - name: Checkout repository
@@ -103,7 +104,7 @@ jobs:
         id: deploy
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: ${{ env.SERVICE_ACCOUNT_JSON_PATH }}
+          serviceAccountJson: ${{ env.SERVICE_ACCOUNT_JSON_PATH }} 
           packageName: com.teefiapp.production
           releaseFiles: ${{ env.ARTIFACT_PATH }}
           track: internal
