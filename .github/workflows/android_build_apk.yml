@@ -5,18 +5,18 @@ on:
     branches: [develop]
     inputs:
       message:
-        description: 'Message to the PO to help him test the feature'
+        description: 'Message to the QA to help him test the feature'
         required: false
         default: 'No message left by the developer to help you test :('
       preprod:
-        description: 'Do you want to generate a preprod build? (true/false)'
+        description: 'Do you want to generate a preprod build? (y/n)'
         required: false
-        default: 'false'
+        default: 'n'
       prod:
-        description: 'Do you want to generate a prod build? (true/false)'
+        description: 'Do you want to generate a prod build? (y/n)'
         required: false
-        default: 'false'
-# if:$ {{ github.event.inputs.preprod == 'true' }}
+        default: 'n'
+# if:$ {{ github.event.inputs.preprod == 'y' }}
 jobs:
   build_android_apk:
     name: Build Signed Android APK
@@ -50,13 +50,13 @@ jobs:
           yarn install
 
       # in the folder specified in the release signing configuration
-      - name: Decode Keystore
-        id: decode_keystore
-        uses: timheuer/base64-to-file@v1.2
-        with:
-          fileName: 'android_keystore.jks'
-          fileDir: '/home/runner/work/up-teefi/android/app/keystore/'
-          encodedString: ${{ secrets.ANDROID_KEYSTORE_PROD }}
+      # - name: Decode Keystore
+      #   id: decode_keystore
+      #   uses: timheuer/base64-to-file@v1.2
+      #   with:
+      #     fileName: 'android_keystore.jks'
+      #     fileDir: '/home/runner/work/up-teefi/android/app/keystore/'
+      #     encodedString: ${{ secrets.ANDROID_KEYSTORE_PROD }}
 
       # Build and sign APK ("-x test" argument is used to skip tests)
       - name: Build APK

@@ -3,7 +3,20 @@ name: 'Build Android aab'
 on:
   workflow_dispatch:
     branches: [develop]
-    # can add push and pull_request here
+    inputs:
+      message:
+        description: 'Message to the QA to help him test the feature'
+        required: false
+        default: 'No message left by the developer to help you test :('
+      preprod:
+        description: 'Do you want to generate a preprod build? (y/n)'
+        required: false
+        default: 'n'
+      prod:
+        description: 'Do you want to generate a prod build? (y/n)'
+        required: false
+        default: 'n'
+# if:$ {{ github.event.inputs.preprod == 'y' }}
 
 jobs:
   build_android_aab:
