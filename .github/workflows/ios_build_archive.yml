@@ -27,23 +27,6 @@ jobs:
       - name: check Xcode version
         run: /usr/bin/xcodebuild -version
 
-      - name: checkout repository
-        uses: actions/checkout@v3
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Run Yarn Install
-        run: |
-          npm i -g corepack
-          yarn install
-
-      - name: Pod Install
-        run: |
-          cd ios
-          pod install
 
       - name: Install the Apple certificate and provisioning profile
         run: |
@@ -68,6 +51,24 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Run Yarn Install
+        run: |
+          npm i -g corepack
+          yarn install
+
+      - name: Pod Install
+        run: |
+          cd ios
+          pod install
 
       - name: build archive
         run: |
