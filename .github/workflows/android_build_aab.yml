@@ -81,5 +81,4 @@ jobs:
           packageName: com.teefiapp.production
           releaseFiles: ./android/app/build/outputs/bundle/prodRelease/app-prod-release.aab
           track: beta
-          status: inProgress
           whatsNewDirectory: distribution/whatsnew
