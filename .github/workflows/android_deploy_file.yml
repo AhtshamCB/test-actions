@@ -53,57 +53,20 @@ jobs:
           fileName: 'service_account.json'
           fileDir: './android/app/keystore/'
           encodedString: ${{ env.SEC_SERVICE_ACCOUNT_JSON }}
-    
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
-      # Insall Java
-      - name: Install Java
-        uses: actions/setup-java@v3
+      # Upload Output folder
+      - name: Upload Output
+        uses: actions/upload-artifact@v2
         with:
-          java-version: '11'
-          distribution: 'adopt'
-          cache: 'gradle'
-
-      # Validate gradle
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
-
-      # Setup Node
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      # yarn install
-      - name: Run Yarn Install
-        run: |
-          npm i -g corepack
-          yarn install
-
-      # Build and sign APK ("-x test" argument is used to skip tests)
-      - name: Build AAB
-        run: |
-          cd android && ./gradlew :app:bundleRelease -x test
-        env:
-          ANDROID_PROD_KEY_ALIAS: ${{ env.SEC_ALIAS }}
-          ANDROID_PROD_ALIAS_PWD: ${{ env.SEC_ALIAS_PWD }}
-          ANDROID_KEYSTORE_PROD_PASSWORD: ${{ env.SEC_KEYSTORE_PWD }}
+          name: SERVICE_ACCOUNT_JSON_PATH
+          path:  ${{ env.SERVICE_ACCOUNT_JSON_PATH }} 
+          retention-days: 3
 
       # Upload Output folder
       - name: Upload Output
         uses: actions/upload-artifact@v2
         with:
           name: download
-          path:  ${{ env.ARTIFACT_PATH }} 
+          path:  ${{ env.ANDROID_KEYSTORE_PATH }} 
           retention-days: 3
 
-      #deploy to goole
-      - name: Deploy to Play Store
-        id: deploy
-        uses: r0adkll/upload-google-play@v1
-        with:
-          serviceAccountJson: ${{ env.SERVICE_ACCOUNT_JSON_PATH }}
-          packageName: com.teefiapp.production
-          releaseFiles: ${{ env.ARTIFACT_PATH }}
-          track: internal
