@@ -7,7 +7,7 @@ on:
       message:
         description: 'Message to the QA to help him test the feature'
         required: false
-        default: 'No message left by the developer to help you test :('
+        default: 'No message left by the developer to help you test :( :('
       preprod:
         description: 'Do you want to generate a preprod build? (y/n)'
         required: false
