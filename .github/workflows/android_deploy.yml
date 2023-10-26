@@ -11,7 +11,7 @@ on:
       versionCode:
         description: 'please specify the build version code'
         required: true
-        default: '1'
+        default: 1
 
 env:
   SEC_STORE_PWD: ${{secrets.ANDROID_KEYSTORE_PROD_PASSWORD }}
