@@ -75,9 +75,9 @@ jobs:
           xcodebuild -workspace $WORKPLACE -scheme $SCHEME -configuration $CONFIGURATION \
           archive -archivePath $ARCHIVE_PATH -allowProvisioningUpdates
           PROVISIONING_STYLE="Manual" \
-          PROVISIONING_PROFILE={$DISTRIBUTION_PROFILE} \
+          PROVISIONING_PROFILE={$SEC_IOS_PROVISIONING_PROFILE} \
           CODE_SIGN_STYLE="Manual" \
-          CODE_SIGN_IDENTITY={$DISTRIBUTION_CERTIFICATE} \
+          CODE_SIGN_IDENTITY={$SEC_IOS_CERTIFICATE_P12} \
 
       - name: Upload application
         uses: actions/upload-artifact@v3
