@@ -1,4 +1,4 @@
-name: 'build signed aab'
+name: 'Android AAB'
 
 on:
   workflow_dispatch:
@@ -12,8 +12,8 @@ env:
   ARTIFACT_PATH:  ${{ './android/app/build/outputs/bundle/prodRelease/app-prod-release.aab' }}
 
 jobs:
-  build_android_aab:
-    name: Build Signed Android AAB
+  android_build_aab:
+    name: Android build AAB
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

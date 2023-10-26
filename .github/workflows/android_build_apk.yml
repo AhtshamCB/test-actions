@@ -1,4 +1,4 @@
-name: 'Build Android apk'
+name: 'Android APK'
 
 on:
   workflow_dispatch:
@@ -12,8 +12,8 @@ env:
   ARTIFACT_PATH:  ${{ './android/app/build/outputs/apk/prod' }}
 
 jobs:
-  build_android_apk:
-    name: Build Signed Android APK
+  android_build_apk:
+    name: Android build APK
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

@@ -1,4 +1,4 @@
-name: 'Deploy aab to goole store'
+name: 'Deploy To store'
 
 on:
   workflow_dispatch:
@@ -27,8 +27,8 @@ env:
   ARTIFACT_PATH:  ${{ './android/app/build/outputs/bundle/prodRelease/app-prod-release.aab' }}
 
 jobs:
-  build_android_aab:
-    name: Deploy build aab
+  deploying_to_store:
+    name: Deploy aab to store
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
