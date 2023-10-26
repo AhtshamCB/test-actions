@@ -1,27 +1,28 @@
-name: 'Build iOS archive'
+name: 'Build iOS Dev ipa'
 
 env:
   WORKPLACE: ${{ 'ios/teefiapp.xcworkspace' }}
-  SCHEME: ${{ 'TeeFiAppProd' }}
-  CONFIGURATION: ${{ 'ReleaseProd' }}
-  ARCHIVE_PATH: ${{ 'build/TeeFiAppProd.xcarchive' }}
-  ARTIFACT_NAME: ${{ 'TeeFiAppProd.xcarchive' }}
+  SCHEME: ${{ 'TeeFiAppDev' }}
+  CONFIGURATION: ${{ 'ReleaseDev' }}
+  ARCHIVE_PATH: ${{ 'build/TeeFiAppDev.xcarchive' }}
+  PLIST_PATH: ${{'ios/Dev/exportOptions.plist' }}
+  IPA_PATH: ${{ 'Dev/' }}
+  ARTIFACT_NAME: ${{ 'teefiapp.ipa' }}
 
   SEC_IOS_CERTIFICATE_P12: ${{ secrets.IOS_CERTIFICATE_P12 }}
   SEC_IOS_CERTIFICATE_PWD: ${{ secrets.IOS_CERTIFICATE_PWD }}
-  SEC_IOS_PROVISIONING_PROFILE: ${{secrets.IOS_PROVISIONING_PROFILE }}
+  SEC_IOS_PROVISIONING_PROFILE: ${{secrets.IOS_PROVISIONING_PROFILE_DEV }}
   SEC_IOS_KEYCHAIN_PWD: ${{ secrets.IOS_KEYCHAIN_PWD }}
 
 on:
   workflow_dispatch:
 
 jobs:
-  build_ios_archive:
+  build_ios_dev_ipa:
     runs-on: macos-latest
     steps:
       - name: check Xcode version
         run: /usr/bin/xcodebuild -version
-
 
       - name: Install the Apple certificate and provisioning profile
         run: |
@@ -62,8 +63,7 @@ jobs:
 
       - name: Pod Install
         run: |
-          cd ios
-          pod install
+          cd ios && pod install
 
       - name: build archive
         run: |
@@ -74,10 +74,19 @@ jobs:
           CODE_SIGN_STYLE="Manual" \
           CODE_SIGN_IDENTITY={$SEC_IOS_CERTIFICATE_P12} \
 
+
+      # xcodebuild -exportArchive -archivePath ./TeeFiAppDev.xcarchive -exportOptionsPlist .  -exportPath teefi.ipa
+      - name: export ipa
+        run: |
+          xcodebuild -exportArchive \
+          -archivePath $ARCHIVE_PATH \
+          -exportOptionsPlist $PLIST_PATH \
+          -exportPath $IPA_PATH
+
       - name: Upload application
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.ARTIFACT_NAME }}
           path: |
-            ${{ env.ARCHIVE_PATH }}
+            ${{ env.IPA_PATH }}
           retention-days: 3

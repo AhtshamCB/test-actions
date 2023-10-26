@@ -1,4 +1,4 @@
-name: 'Build iOS ipa'
+name: 'Build iOS prod ipa'
 
 env:
   WORKPLACE: ${{ 'ios/teefiapp.xcworkspace' }}
@@ -18,7 +18,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_ios_ipa:
+  build_ios_prod_ipa:
     runs-on: macos-latest
     steps:
       - name: check Xcode version
