@@ -2,34 +2,28 @@ name: 'Build iOS ipa'
 
 env:
   WORKPLACE: ${{ 'ios/teefiapp.xcworkspace' }}
-  SCHEME: ${{ 'TeeFiAppDev' }}
-  CONFIGURATION: ${{ 'ReleaseDev' }}
-  ARCHIVE_PATH: ${{ 'ios/build/TeeFiAppDev.xcarchive' }}
-  PLIST_PATH: ${{'ios/teefiapp/Info-Dev.plist' }}
+  SCHEME: ${{ 'TeeFiAppProd' }}
+  CONFIGURATION: ${{ 'ReleaseProd' }}
+  ARCHIVE_PATH: ${{ 'build/TeeFiAppProd.xcarchive' }}
+  PLIST_PATH: ${{'ios/Production/exportOptions.plist' }}
   IPA_PATH: ${{ 'prod/' }}
-
   ARTIFACT_NAME: ${{ 'teefiapp.ipa' }}
 
-  DISTRIBUTION_CERTIFICATE: ${{ secrets.APPLE_APP_DISTRIBUTION_CERTIFICATE }}
-  CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
-  DISTRIBUTION_PROFILE: ${{secrets.APPLE_DISTRIBUTION_PROFILE }}
-  KEY_PWD: ${{ secrets.KEY_PWD }}
+  SEC_IOS_CERTIFICATE_P12: ${{ secrets.IOS_CERTIFICATE_P12 }}
+  SEC_IOS_CERTIFICATE_PWD: ${{ secrets.IOS_CERTIFICATE_PWD }}
+  SEC_IOS_PROVISIONING_PROFILE: ${{secrets.IOS_PROVISIONING_PROFILE }}
+  SEC_IOS_KEYCHAIN_PWD: ${{ secrets.IOS_KEYCHAIN_PWD }}
 
 on:
-  # manual trigger but change to any supported event
-  # see addl: https://www.andrewhoog.com/post/how-to-build-react-native-android-app-with-github-actions/#3-run-build-workflow
   workflow_dispatch:
-    branches: [develop]
 
 jobs:
   build_ios_ipa:
     runs-on: macos-latest
     steps:
-      # this was more debug as was curious what came pre-installed
-      # GitHub shares this online, e.g. https://github.com/actions/runner-images/blob/macOS-12/20230224.1/images/macos/macos-12-Readme.md
       - name: check Xcode version
         run: /usr/bin/xcodebuild -version
-      
+
       - name: Install the Apple certificate and provisioning profile
         run: |
           # create variables
@@ -38,22 +32,21 @@ jobs:
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
 
           # import certificate and provisioning profile from secrets
-          echo -n "$DISTRIBUTION_CERTIFICATE" | base64 --decode -o $CERTIFICATE_PATH
-          echo -n "$DISTRIBUTION_PROFILE" | base64 --decode -o $PP_PATH
+          echo -n "$SEC_IOS_CERTIFICATE_P12" | base64 --decode -o $CERTIFICATE_PATH
+          echo -n "$SEC_IOS_PROVISIONING_PROFILE" | base64 --decode -o $PP_PATH
 
           # create temporary keychain
-          security create-keychain -p "$KEY_PWD" $KEYCHAIN_PATH
+          security create-keychain -p "$SEC_IOS_KEYCHAIN_PWD" $KEYCHAIN_PATH
           security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-          security unlock-keychain -p "$KEY_PWD" $KEYCHAIN_PATH
+          security unlock-keychain -p "$SEC_IOS_KEYCHAIN_PWD" $KEYCHAIN_PATH
 
           # import certificate to keychain
-          security import $CERTIFICATE_PATH -P "$CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security import $CERTIFICATE_PATH -P "$SEC_IOS_CERTIFICATE_PWD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
 
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-
 
       - name: checkout repository
         uses: actions/checkout@v3
@@ -77,9 +70,10 @@ jobs:
           xcodebuild -workspace $WORKPLACE -scheme $SCHEME -configuration $CONFIGURATION \
           archive -archivePath $ARCHIVE_PATH -allowProvisioningUpdates
           PROVISIONING_STYLE="Manual" \
-          PROVISIONING_PROFILE={$DISTRIBUTION_PROFILE} \
+          PROVISIONING_PROFILE={$SEC_IOS_PROVISIONING_PROFILE} \
           CODE_SIGN_STYLE="Manual" \
-          CODE_SIGN_IDENTITY={$DISTRIBUTION_CERTIFICATE} \
+          CODE_SIGN_IDENTITY={$SEC_IOS_CERTIFICATE_P12} \
+
 
       # xcodebuild -exportArchive -archivePath ./TeeFiAppDev.xcarchive -exportOptionsPlist .  -exportPath teefi.ipa
       - name: export ipa
@@ -88,6 +82,7 @@ jobs:
           -archivePath $ARCHIVE_PATH \
           -exportOptionsPlist $PLIST_PATH \
           -exportPath $IPA_PATH
+
       - name: Upload application
         uses: actions/upload-artifact@v3
         with:

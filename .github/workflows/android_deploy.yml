@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
 
 env:
-  SEC_STORE_PWD: ${{secrets.ANDROID_KEYSTORE_PROD_PASSWORD }}
-  SEC_KEY_ALIAS: ${{secrets.ANDROID_PROD_KEY_ALIAS }}
-  SEC_KEY_ALIAS_PWD: ${{secrets.ANDROID_PROD_ALIAS_PWD }}
+  SEC_STORE_PWD: ${{secrets.ANDROID_STORE_PWD }}
+  SEC_KEY_ALIAS: ${{secrets.ANDROID_KEY_ALIAS }}
+  SEC_KEY_ALIAS_PWD: ${{secrets.ANDROID_KEY_ALIAS_PWD }}
 
   SERVICE_ACCOUNT_JSON_PATH: ${{'./android/app/deploy/service_account.json'}}
   ARTIFACT_PATH:  ${{ './android/app/build/outputs/bundle/prodRelease/app-prod-release.aab' }}
