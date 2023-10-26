@@ -73,7 +73,11 @@ jobs:
       - name: build archive
         run: |
           xcodebuild -workspace $WORKPLACE -scheme $SCHEME -configuration $CONFIGURATION \
-          archive -archivePath $ARCHIVE_PATH
+          archive -archivePath $ARCHIVE_PATH -allowProvisioningUpdates
+          PROVISIONING_STYLE="Manual" \
+          PROVISIONING_PROFILE={$DISTRIBUTION_PROFILE} \
+          CODE_SIGN_STYLE="Manual" \
+          CODE_SIGN_IDENTITY={$DISTRIBUTION_CERTIFICATE} \
 
       - name: Upload application
         uses: actions/upload-artifact@v3
