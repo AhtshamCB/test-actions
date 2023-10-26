@@ -105,8 +105,8 @@ android {
         resValue "string", "build_config_package", "com.teefiapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 15
-        versionName "1.0.1"
+        versionName System.getenv("VERSION_NAME")
+        versionCode System.getenv("VERSION_CODE")
         vectorDrawables.useSupportLibrary = true
         missingDimensionStrategy 'react-native-camera', 'general'
     }
@@ -127,10 +127,10 @@ android {
             keyPassword 'android'
         }
        release {
-            storeFile = file("keystore/android_keystore.jks")
-            storePassword System.getenv("ANDROID_KEYSTORE_PROD_PASSWORD")
-            keyAlias System.getenv("ANDROID_PROD_KEY_ALIAS")
-            keyPassword System.getenv("ANDROID_PROD_ALIAS_PWD")
+            storeFile = file("deploy/android_keystore.jks")
+            storePassword System.getenv("STORE_PWD")
+            keyAlias System.getenv("KEY_ALIAS")
+            keyPassword System.getenv("KEY_ALIAS_PWD")
        }
     }
     flavorDimensions "enviroment"
