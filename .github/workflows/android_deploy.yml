@@ -2,16 +2,6 @@ name: 'Android Deployment'
 
 on:
   workflow_dispatch:
-    inputs:
-      versionName:
-        description: 'please specify the build version name'
-        required: true
-        default: '1.0.1'
-
-      versionCode:
-        description: 'please specify the build version code'
-        required: true
-        default: 1
 
 env:
   SEC_STORE_PWD: ${{secrets.ANDROID_KEYSTORE_PROD_PASSWORD }}
@@ -61,8 +51,6 @@ jobs:
           KEY_ALIAS: ${{ env.SEC_KEY_ALIAS }}
           KEY_ALIAS_PWD: ${{ env.SEC_KEY_ALIAS_PWD }}
           STORE_PWD: ${{ env.SEC_STORE_PWD }}
-          VERSION_NAME: ${{ github.event.inputs.versionName }}
-          VERSION_CODE: ${{ github.event.inputs.versionCode }}
 
       # Upload Output folder
       - name: Upload Output
