@@ -9,7 +9,7 @@ env:
   IPA_PATH: ${{ 'ios/build/' }}
 
   ARTIFACT_NAME: ${{ 'teefiapp' }}
-  IPA_UPLOAD_PATH: ${{ 'build/TeeFiApp.ipa' }}
+  IPA_UPLOAD_PATH: ${{ 'build/TeeFiApp Dev.ipa' }}
 
   SEC_IOS_CERTIFICATE_P12: ${{ secrets.IOS_CERTIFICATE_P12 }}
   SEC_IOS_CERTIFICATE_PWD: ${{ secrets.IOS_CERTIFICATE_PWD }}
