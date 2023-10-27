@@ -7,12 +7,16 @@ env:
   ARCHIVE_PATH: ${{ 'build/TeeFiAppProd.xcarchive' }}
   PLIST_PATH: ${{'ios/Production/exportOptions.plist' }}
   IPA_PATH: ${{ 'prod/' }}
-  ARTIFACT_NAME: ${{ 'teefiapp.ipa' }}
+  ARTIFACT_NAME: ${{ 'teefiapp' }}
+  IPA_UPLOAD_PATH: ${{ 'prod/TeeFiApp.ipa' }}
 
   SEC_IOS_CERTIFICATE_P12: ${{ secrets.IOS_CERTIFICATE_P12 }}
   SEC_IOS_CERTIFICATE_PWD: ${{ secrets.IOS_CERTIFICATE_PWD }}
   SEC_IOS_PROVISIONING_PROFILE: ${{secrets.IOS_PROVISIONING_PROFILE }}
   SEC_IOS_KEYCHAIN_PWD: ${{ secrets.IOS_KEYCHAIN_PWD }}
+
+  SEC_IOS_API_KEY_ID: ${{ secrets.IOS_API_KEY_ID }}
+  SEC_IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
 
 on:
   workflow_dispatch:
@@ -55,15 +59,34 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: 'yarn' # or 'npm' and 'pnpm'
 
-      - name: Run Yarn Install
-        run: |
-          npm i -g corepack
-          yarn install
+      - name: Cache node_modules
+        id: modules-cache
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
 
-      - name: Pod Install
+      - name: Install node_modules if necessary
+        if: steps.modules-cache.outputs.cache-hit != 'true'
+        shell: bash
         run: |
-          cd ios && pod install
+          npm i -g corepack 
+          yarn install --frozen-lockfile
+
+      - name: Cache Pods
+        if: runner.os == 'macOS'
+        uses: actions/cache@v3
+        id: pods-cache
+        with:
+          path: ./ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+
+      - name: Install pods
+        if: runner.os == 'macOS'
+        shell: bash
+        run: cd ios && bundle exec pod install && cd ..
 
       - name: build archive
         run: |
@@ -73,7 +96,6 @@ jobs:
           PROVISIONING_PROFILE={$SEC_IOS_PROVISIONING_PROFILE} \
           CODE_SIGN_STYLE="Manual" \
           CODE_SIGN_IDENTITY={$SEC_IOS_CERTIFICATE_P12} \
-
 
       # xcodebuild -exportArchive -archivePath ./TeeFiAppDev.xcarchive -exportOptionsPlist .  -exportPath teefi.ipa
       - name: export ipa
@@ -90,3 +112,7 @@ jobs:
           path: |
             ${{ env.IPA_PATH }}
           retention-days: 3
+
+      - name: deploy to ios testflight
+        run: |
+          xcrun altool — upload-app -f “${{ env.IPA_UPLOAD_PATH }}” -t ios — apiKey “${{ env.SEC_IOS_API_KEY_ID }}” — apiIssuer “${{ env.SEC_IOS_ISSUER_ID }}”
