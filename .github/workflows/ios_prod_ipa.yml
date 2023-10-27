@@ -87,7 +87,7 @@ jobs:
       - name: Install pods
         if: runner.os == 'macOS'
         shell: bash
-        run: cd ios && bundle exec pod install && cd ..
+        run: cd ios && pod install && cd ..
 
       - name: build archive
         run: |
