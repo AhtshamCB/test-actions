@@ -114,6 +114,6 @@ jobs:
             ${{ env.IPA_PATH }}
           retention-days: 3
 
-      # - name: deploy to ios testflight
-      #   run: |
-      #     xcrun altool — upload-app -f “${{ env.IPA_UPLOAD_PATH }}” -t ios — apiKey “${{ env.SEC_IOS_API_KEY_ID }}” — apiIssuer “${{ env.SEC_IOS_ISSUER_ID }}”
+      - name: deploy to ios testflight
+        run: |
+          xcrun altool --upload-app -f “${{ env.IPA_UPLOAD_PATH }}” -t ios — apiKey “${{ env.SEC_IOS_API_KEY_ID }}” — apiIssuer “${{ env.SEC_IOS_ISSUER_ID }}”
