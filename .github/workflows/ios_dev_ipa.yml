@@ -4,11 +4,12 @@ env:
   WORKPLACE: ${{ 'ios/teefiapp.xcworkspace' }}
   SCHEME: ${{ 'TeeFiAppDev' }}
   CONFIGURATION: ${{ 'ReleaseDev' }}
-  ARCHIVE_PATH: ${{ 'build/TeeFiAppDev.xcarchive' }}
+  ARCHIVE_PATH: ${{ 'ios/build/TeeFiAppDev.xcarchive' }}
   PLIST_PATH: ${{'ios/Dev/exportOptions.plist' }}
-  IPA_PATH: ${{ 'Dev/' }}
+  IPA_PATH: ${{ 'ios/build/' }}
+
   ARTIFACT_NAME: ${{ 'teefiapp' }}
-  IPA_UPLOAD_PATH: ${{ 'Dev/TeeFiApp Dev.ipa' }}
+  IPA_UPLOAD_PATH: ${{ 'build/TeeFiApp.ipa' }}
 
   SEC_IOS_CERTIFICATE_P12: ${{ secrets.IOS_CERTIFICATE_P12 }}
   SEC_IOS_CERTIFICATE_PWD: ${{ secrets.IOS_CERTIFICATE_PWD }}
@@ -116,4 +117,5 @@ jobs:
 
       - name: deploy to ios testflight
         run: |
-          xcrun altool --upload-app -f “${{ env.IPA_UPLOAD_PATH }}” -t ios — apiKey “${{ env.SEC_IOS_API_KEY_ID }}” — apiIssuer “${{ env.SEC_IOS_ISSUER_ID }}”
+          cd ios
+          xcrun altool --upload-app -f "${{ env.IPA_UPLOAD_PATH }}" -t ios --apiKey "${{ env.SEC_IOS_API_KEY_ID }}" --apiIssuer "${{ env.SEC_IOS_ISSUER_ID }}"
